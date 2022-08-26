@@ -1,0 +1,10 @@
+step 4 web
+Todo list hari ini:
+Membaut template untuk home page (index.html)
+Navbar Section
+Header Section
+Post List Section
+Newsletter Section
+Footer Section
+
+D:\Project\PROJECT X\hugo\bin\hugo_extended_0.101.0_Windows-64bit\hugo.exe

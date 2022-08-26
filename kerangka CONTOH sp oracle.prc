@@ -1,0 +1,44 @@
+/* Formatted on 7/15/2022 2:19:15 PM (QP5 v5.381) */
+CREATE OR REPLACE PROCEDURE GEN21_22.CONTOH
+IS
+    TGL_AWAL            DATE;
+    TGL_AKHIR           DATE;
+    LL_DELETEDROW       NUMBER;
+    LS_TABLE            VARCHAR2(3000);
+BEGIN
+    TGL_AKHIR := SYSDATE;
+    TGL_AKHIR := SYSDATE - 100;
+
+    FOR CUR1
+        IN (SELECT ME_USER_LOGIN_LOG.LAST_LOGIN_DATE,
+                   ME_USER_LOGIN_LOG.APPLICATION_LOGIN,
+                   ME_USER_LOGIN_LOG.USER_CODE
+              FROM ME_USER_LOGIN_LOG
+             WHERE ME_USER_LOGIN_LOG.LAST_LOGIN_DATE >
+                       (SELECT SYSDATE - 100 AS a FROM DUAL)
+               AND ME_USER_LOGIN_LOG.LAST_LOGIN_DATE < SYSDATE)
+    LOOP
+        BEGIN
+            SELECT ME_USER_LOGIN_LOG.LAST_LOGIN_DATE
+               INTO TGL_AWAL
+              FROM ME_USER_LOGIN_LOG
+             WHERE ME_USER_LOGIN_LOG.LAST_LOGIN_DATE    = CUR1.LAST_LOGIN_DATE
+               AND ME_USER_LOGIN_LOG.APPLICATION_LOGIN  = CUR1.APPLICATION_LOGIN
+               AND ME_USER_LOGIN_LOG.USER_CODE          = CUR1.USER_CODE;
+               
+              
+               LL_DELETEDROW := LL_DELETEDROW + 1;
+                 DBMS_OUTPUT.PUT_LINE(TGL_AWAL);
+        EXCEPTION
+            WHEN OTHERS
+            THEN
+                GOTO END_LOOP_TT_MO1_CHANGES;                      --CONTINUE;
+        END;
+
+       <<END_LOOP_TT_MO1_CHANGES>>
+        NULL;
+    END LOOP;
+    LS_TABLE           := LS_TABLE ||' '|| TO_CHAR(LL_DELETEDROW) || ' Rows' ;  
+--     DBMS_OUTPUT.PUT_LINE(TGL_AWAL);
+--     DBMS_OUTPUT.PUT_LINE(LS_TABLE);
+END;

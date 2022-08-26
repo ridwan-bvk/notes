@@ -1,0 +1,41 @@
+
+asepridwan@infotech.co.id
+pwd: AsepRidwan#307
+http://mail.infotech.co.id/webmail 
+
+
+
+--jira
+Username : asepridwan
+Password : @PalmaOne307
+pwd:asepridwan19
+
+
+--- IS Project ---
+link : http://192.168.0.99:808/Login.asp?lang=EN
+username : asepridwan
+password : asepridwan
+
+
+--- CHANGE LOG ---
+link : http://192.168.0.48:105/LoginNew.aspx
+username : asepridwan
+password : asepridwan
+
+spotify
+asepridwan@infotech.co.id
+sotong19
+
+source cms
+\\putu-pc\_PBUS\APPS\GEN21_CMS VER 10.0
+
+------------------
+ODBC JIRA
+password : gen21jira@palmaone
+-----------------------------
+\\gen21vpnserver
+user : VPNADMIN
+pass : gen21vpn@palmaone
+
+jira repair
+AP-58

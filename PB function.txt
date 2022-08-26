@@ -1,0 +1,904 @@
+1. open tab
+tab_1.tabpage_1.uo_tabcontrol_2.of_openpbtab(tab_1.tabpage_1.tab_2)
+
+
+2. set tema warna
+-----------------------
+n_cst_color_object ln_cst_color_object
+
+ln_cst_color_object = create n_cst_color_object
+ln_cst_color_object.uf_set_dw_color0(tab_1.tabpage_1.tab_detail.tabpage_3.dw_reg_dtl)
+
+destroy ln_cst_color_object
+
+3. ParentWindow() dirubah menjadi gw_frame.PointerX
+//lm_menu.m_navigation.popmenu(ParentWindow().PointerX(), ParentWindow().PointerY())
+rubah jadi
+lm_menu.m_navigation.popmenu(gw_frame.PointerX(), gw_frame.PointerY())
+
+4. split bar
+uo_xplistbar.of_AddLink(  tab_1.tabpage_1.dw_1.object.group_name[i],"", ll_Group, tab_1.tabpage_1.dw_1.object.group_name[i])
+
+5.mengambil  panjang object
+integer(dw.Describe ( ls_column + ".x" ))
+
+6. set power filter
+iu_PowerFilter = create n_cst_PowerFilter
+iu_PowerFilter.of_setdw(tab_1.tabpage_2.dw_header)
+iu_PowerFilter.of_setparentwindow(this)
+
+IF iu_PowerFilter.checked THEN 
+	iu_PowerFilter.checked = FALSE
+	tab_1.tabpage_2.dw_header.setfilter("")
+	tab_1.tabpage_2.dw_header.Filter()
+ELSE
+	iu_PowerFilter.checked = TRUE
+END IF
+iu_PowerFilter.event ue_clicked()
+
+7. untuk pemanggilan uo itu gunakan fungtion jadi ketika mengambil event didw taro di uf_ dan panggil evennnya itu
+8.
+post event ue_retrieve_spa(true)
+
+event ue_set_ddlb(tab_1.tabpage_2.dw_header)
+
+uo_tabcontrol.of_openpbtab(tab_1)
+
+tab_1.tabpage_1.uo_tab_prg.of_openpbtab( tab_1.tabpage_1.tab_programs)
+tab_1.tabpage_1.uo_tab_epi.of_openpbtab( tab_1.tabpage_1.tab_episodes)
+tab_1.tabpage_1.uo_tab_runs.of_openpbtab( tab_1.tabpage_1.tab_runs)
+
+9.
+This.uf_SetDropDownCalendar(true)
+This.inv_CalendarAttrib.uf_Register("date_from")
+This.inv_CalendarAttrib.uf_Register("date_to")
+GUP-10 Master - ADMIN - Application Configuration
+GUP-27 Sales - Sales Purchase / Media Order
+
+10 NVL() adalah isnull()
+
+11 mencari yg duplicate
+--begin
+DELETE FROM mp_film_image
+      WHERE     row_id_poc IN
+                   (SELECT row_id_poc
+                      FROM (  SELECT DISTINCT
+                                     row_id,
+                                     row_id_poc,
+                                     film_poc,
+                                     (SELECT COUNT (1)
+                                        FROM mp_film_image mpi
+                                       WHERE     mpi.film_poc =
+                                                    mp_film_image.film_poc
+                                             AND MPI.ROW_ID_POC =
+                                                    mp_film_image.row_id_poc)
+                                        koun
+                                FROM mp_film_image
+                            ORDER BY row_id_poc) temp
+                     WHERE koun > 1)
+            AND row_id not in
+                   (SELECT row_id
+                      FROM (  SELECT DISTINCT
+                                     row_id,
+                                     row_id_poc,
+                                     film_poc,
+                                     (SELECT COUNT (1)
+                                        FROM mp_film_image mpi
+                                       WHERE     mpi.film_poc =
+                                                    mp_film_image.film_poc
+                                             AND MPI.ROW_ID_POC =
+                                                    mp_film_image.row_id_poc)
+                                        koun
+                                FROM mp_film_image
+                            ORDER BY row_id_poc) temp
+                     WHERE koun > 1 AND ROWNUM = 1);
+---end
+
+------------------------------------------------------------------------------------------------
+iw_window.trigger event ue_save(true,false,astr_win,'1')	// save deleted data	
+ib_delete = false
+
+12. regexp_replace('d123', '[^0-9]', '') fungsi untuk menngambil angka nya saja
+13. rownum in oracle
+14. dbms_output.put_line(nextId)
+15. fungsi exception
+DECLARE
+   v_var NUMBER;
+BEGIN
+   SELECT clmn INTO v_var FROM tbl;
+Exception when no_data_found then v_var := null; --what ever handle the exception.
+END;
+
+16. 
+setitem( getrow(), 'prodg_code1' , trim(object.prodg_code1[getrow()]))
+
+17. REGEXP_LIKE (B.PRODG_CODE1,'[^0-9]') --fungsi untuk menacari 0-9
+
+SELECT MAX(A.PRODG_CODE1)
+  FROM MT_PRODG_SUB A
+ WHERE Not EXISTS
+        (SELECT B.PRODG_CODE1
+          FROM MT_PRODG_SUB B 
+        WHERE REGEXP_LIKE (B.PRODG_CODE1,'[^0-9]') --fungsi untuk menacari 0-9
+          AND B.PRODG_CODE1 = A.PRODG_CODE1
+          AND B.ROW_ID_PROD = A.ROW_ID_PROD)
+   AND rownum = 1; 
+
+script untuk update dari data max yg hanya angka saja
+UPDATE ae_run
+   SET RUN_LAST = ( SELECT MAX(A.PRODG_CODE1)
+                      FROM MT_PRODG_SUB A
+                     WHERE Not EXISTS
+                            (SELECT B.PRODG_CODE1
+                              FROM MT_PRODG_SUB B 
+                             WHERE REGEXP_LIKE (B.PRODG_CODE1,'[^0-9]') --fungsi untuk menacari 0-9
+                               AND B.PRODG_CODE1 = A.PRODG_CODE1
+                               AND B.ROW_ID_PROD = A.ROW_ID_PROD))
+   WHERE RUN_CODE = 'S2'; 
+   COMMIT;
+------------------------------------------------------------------------------------------------
+cara insert ke array structure
+for i = 1 to Upperbound(ist_object.datacolumn[])
+	ll_col	= uf_columnnumber(dw_1, ist_object.datacolumn[i])
+	if left(dw_1.describe(ist_object.datacolumn[i]+".Coltype"),4)='char' then
+		lst_object.datacolumn[i] = dw_1.object.data[row, ll_col]
+	else
+		lst_object.datacolumn[i] = string(dw_1.object.data[row, ll_col])
+	end if
+	//lst_object.datacolumn[i] = dw_1.object.data[row, ll_col]
+next
+----------------------------------------------------------------------------------------------
+ls_sql_list =	"select tx_code, tx_name~n"+&
+				"from mg_tx~n"+&
+				"where tx_code in ("+is_txareas+")~n"+&
+				"order by mg_tx.priority~n"
+	DECLARE cr_tx DYNAMIC CURSOR FOR SQLSA;
+	PREPARE SQLSA FROM :ls_sql_list USING sqlca;
+	OPEN DYNAMIC cr_tx ;	
+	li_row = 0
+	fetch cr_tx INTO :ls_buff1, :ls_buff2;
+	DO WHILE sqlca.sqlcode = 0
+		li_row++
+		is_tx_list[li_row] = ls_buff1
+		ls_channel_tx_name[li_row] = ls_buff2
+		
+		fetch cr_tx INTO :ls_buff1, :ls_buff2;
+	LOOP
+	CLOSE cr_tx;
+--------------------------------------------------
+f_jam_to_detik
+--------------------------------
+lds_group = CREATE DataStore						
+lds_group.dataobject = 'd_mst_custom_chart'
+lds_group.SetTransObject(SQLCA)
+
+lds_group.Retrieve()
+-----------------------------------------------
+
+Datastore 		lds_group, lds_subgroup, lds_feat,lds
+Integer 			li_index, li_index_spot, ll_index_feat
+Long 				ll_handle , ll_root, ll_handlechild, ll_handlechild2
+String 			ls_category,ls_sql,ls_dwSyntax,ls_err,ls_kategory
+TreeViewItem 	ltvi_top, ltvi, ltvi_sub, ltvi_feat
+
+
+Tab_1.TabPage_1.tv_list.DeleteItem(0)		// Clear the existing data
+
+ls_sql = "SELECT KATEGORY FROM MST_CUSTOM_CHART WHERE APP_FLAG = 'GEN21BMS' GROUP BY KATEGORY"
+
+lds = create datastore
+ls_dwSyntax = SQLCA.SyntaxFromSQL( ls_sql, '' ,ls_err )
+lds.create( ls_dwSyntax,ls_err)
+lds.SetTransObject(SQLCA)
+lds.retrieve()
+
+ltvi_top.label = 'Dashboard'
+ltvi_top.Data	= 'Dashboard'
+ltvi_top.PictureIndex = 1
+ltvi_top.SelectedPictureIndex = 1
+ll_handle = THIS.InsertItemFirst(ll_root, ltvi_top )	
+
+for li_index = 1 to lds.rowcount()
+	ls_kategory = lds.object.kategory[li_index]
+	if len( ls_kategory ) > 0 then
+			ltvi.label = lds.object.kategory[li_index]
+			ltvi.Data  = lds.object.kategory[li_index]
+			
+			ltvi.PictureIndex = 2
+			ltvi.SelectedPictureIndex = 3
+			ll_handlechild = THIS.InsertItemFirst(	ll_handle, ltvi )	
+			event ue_kategory(ls_kategory,ll_handlechild)
+	end if		
+next
+
+
+----event ue_kategory
+Datastore 		lds_group, lds_subgroup, lds_feat,lds_sub
+Integer 			li_index, li_index_spot, ll_index_feat
+Long 				ll_handle , ll_root, ll_handlechild, ll_handlechild2
+String 			ls_category,ls_sql,ls_dwSyntax,ls_err,ls_kategory,ls_label
+TreeViewItem 	ltvi_top, ltvi, ltvi_sub, ltvi_feat
+
+// DataStore for showing group
+lds_group = CREATE DataStore						
+lds_group.dataobject = 'd_mst_custom_chart'
+lds_group.SetTransObject(SQLCA)
+
+lds_group.Retrieve()
+
+ls_sql = lds_group.getsqlselect( )
+ls_sql = ls_sql + " and kategory = '"+ kategory +"'"
+
+lds_sub = create datastore
+ls_dwSyntax = SQLCA.SyntaxFromSQL( ls_sql, '' ,ls_err )
+lds_sub.create( ls_dwSyntax,ls_err)
+lds_sub.SetTransObject(SQLCA)
+lds_sub.retrieve()
+
+for li_index = 1 to lds_sub.rowcount()
+	ls_label = lds_sub.object.kategory[li_index]
+	if len( ls_label ) > 0 then
+		ltvi.PictureIndex = 4
+		ltvi.SelectedPictureIndex = 5
+		ltvi.label = lds_sub.GetItemString(li_index,'Filterby') + ' (' +lds_sub.GetItemString(li_index,'charttype')+')'
+		ltvi.data = lds_sub.GetItemString(li_index,'chart_id')
+		this.InsertItemLast( al_handle, ltvi )	
+	end if		
+next
+destroy lds_sub
+destroy lds_group
+-------------------------------------------------------------------------------------------------------------------------------------------
+cara membuat tgl satu bulan
+AND TM1.MO_BOOK_DATE BETWEEN TO_DATE (TO_CHAR (SYSDATE, 'yyyymm') || '01',
+                                           'YYYYMMDD')
+                              AND LAST_DAY (
+                                     TO_DATE (
+                                        TO_CHAR (SYSDATE, 'yyyymm') || '01',
+                                        'YYYYMMDD'))
+
+
+----------------------------------------------------------
+duplicate
+
+do while ll_row <= this.rowcount( )
+		ls_email1 = this.getitemstring(ll_row, 'user_email')
+		
+		ll_row2 = 1
+		do while ll_row2 <= this.rowcount( )
+			ls_email2 = this.getitemstring(ll_row2, 'user_email')
+			if ll_row <> ll_row2 then
+				if ls_email2 = ls_email1 then
+					MessageBox('Warning','Duplicate Email row '+ll_row+' with row '+ll_row2,exclamation!)
+					return -1
+				end if
+			end if
+			ll_row2++
+		loop
+		ll_row ++
+loop
+
+cara buat pdf
+--------------------
+
+// Add By Putu
+string		ls_attach_name			
+w_mail lw_mywindow
+
+if is_file_extention = 'PDF' then
+	if isnull(is_reportname) or trim(is_reportname) = '' then
+		ls_attach_name='DataWindow'
+	else
+		ls_attach_name= is_reportname
+	end if	
+	dw_output.Object.DataWindow.Export.PDF.Method = Distill!
+	dw_output.Object.DataWindow.Export.PDF.Distill.CustomPostScript="No"
+	dw_output.SaveAs(ls_attach_name + '.pdf', PDF!, false)	
+	dw_output.saveas(ls_attach_name + '.psr', PSReport!, True)
+	
+elseif  is_file_extention = 'PSR' then
+	if isnull(is_reportname) or trim(is_reportname) = '' then
+		ls_attach_name='DataWindow'
+	else
+		ls_attach_name= is_reportname
+	end if
+	
+	dw_output.saveas(ls_attach_name + '.psr', PSReport!, True)
+else
+	if isnull(is_reportname) or trim(is_reportname) = '' then
+		ls_attach_name='DataWindow'
+	else
+		ls_attach_name= is_reportname
+	end if	
+	dw_output.Object.DataWindow.Export.PDF.Method = Distill!
+	dw_output.Object.DataWindow.Export.PDF.Distill.CustomPostScript="No"
+	dw_output.SaveAs(ls_attach_name + '.pdf', PDF!, false)	
+	dw_output.saveas(ls_attach_name + '.psr', PSReport!, True)
+	
+end if
+
+ls_attach_name = trim(ls_attach_name + '.pdf')
+
+gnv_modal.OpenModal(lw_mywindow, ls_attach_name)
+//openwithparm(w_mail, ls_attach_name)
+
+
+-------------------------------------------------
+cara ngambil  ada directorynya
+------------------------------------------------
+string ls_curdir
+ulong l_buf
+string ls_path
+
+l_buf = 100
+
+if len(ls_path_name) > 8 then
+	p_1.visible = true
+	st_8.text = ls_path_name
+	ls_curdir = space(l_buf)
+	GetCurrentDirectoryA(l_buf, ls_curdir)
+	ls_path = ls_curdir + '\' + ls_path_name // '\DataWndw.psr'
+	lb_attachments.AddItem(ls_path)
+else
+	cb_addfile.visible = true
+	cb_del.visible = true
+end if
+
+cara ngambil  ada directorynya
+------------------------------------------------
+dwitemstatus l_status 
+l_status 	= dw_detail.getitemstatus(ll_row,0,Primary!)
+
+GetItemStatus(j,0,Primary!) = NewModified!
+l_status 	= tab_1.tabpage_1.dw_detail.getitemstatus(1,0,Primary!)
+if l_status = NewModified! or  l_status = DataModified! then 
+messagebox('','tes')
+end if
+----------------------------------------------------------------------------------------
+row_id function
+
+decimal	ldec_10, ldec_int
+string	ls_temp
+string	ls_62 = ''
+char		ic_simbol[]
+string	ls_simbol = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+integer	ii
+
+// Prepare string Array for row id
+// prepare lambangan bilangan untuk row_id
+for ii=1 to 62
+	ic_simbol[ii] = mid(ls_simbol,ii,1)
+next
+
+
+ldec_10 = dec(string(datetime(today(),now()),'yyyymmddhhmmssffff'))
+// generates a unique rowid based on time
+// convert ke bilangan basis 62
+do until ldec_10 = 0
+	//20090911 fahri
+	ldec_int = (ldec_10 - mod(ldec_10,62)) / 62
+//	ls_temp	= string(ldec_10 / 62)
+//	ldec_int = dec(mid(ls_temp,1,pos(ls_temp,'.')))
+//	//ldec_int = int(ls_temp)
+//	if ldec_int = 0 then ldec_int = dec(mid(ls_temp,1,pos(ls_temp,',')))
+	ls_62		= ic_simbol[ldec_10 - 62 * ldec_int + 1] + ls_62
+	ldec_10	= ldec_int
+loop
+
+// Counter for Unique Guarantee
+// counter untuk menjamin unique
+if gl_cc > 99999 then gl_cc = 0
+ls_62 += gs_id +string(gl_cc,'00000')
+gl_cc ++
+if isnull(ls_62) or Trim(ls_62) = "" then
+	ls_62 = string(gf_serverdate(),'yyyymmddhhmmssffff')
+	Messagebox("Error","Cannot Generate Row ID")
+end if	
+return ls_62
+---------------------------------------------------------------------------------	
+1
+gf_messagebox_pbus('Search Criteria','Please specify the search criteria.','Please specify the search criteria.','',OK!,1)
+2
+lnv_toast.of_Alert("",gf_messagebox_translate('G.MSG.TITLE.0022',"Saving is fail.", gas_null), "RED", lnv_toast.FADE_ANIMATION)
+3
+gf_messagebox_pbus(gf_messagebox_translate('G.MSG.TITLE.0000', 'Gen21 Media Management', gas_null),&
+			gf_messagebox_translate('T.LIB.RCVMD.0094', 'Do you want to delete Episode ?', gas_null),&
+			gf_messagebox_translate('T.LIB.RCVMD.0094', 'Do you want to delete Episode ?', gas_null), yesnocancel!, 1)
+
+untuk merubah kembali ke edit
+trigger event ue_retrieve(false)
+------------------------------------------------------
+clasing/duplicate periode
+
+SELECT Count(tx_code)
+			 INTO :li_count
+			FROM mst_seqprem_date
+			WHERE ( mst_seqprem_date.channel_code = :ls_channel_code ) AND
+					( mst_seqprem_date.tx_code = :ls_tx_code ) AND					
+					( mst_seqprem_date.row_id <> :ls_rowid ) AND
+					( ( mst_seqprem_date.date_from BETWEEN :ldt_date_from AND :ldt_date_to ) OR
+					  ( mst_seqprem_date.date_to BETWEEN :ldt_date_from AND :ldt_date_to ) OR
+					  ( to_char(:ldt_date_from,'yyyymmdd') >= to_char(mst_seqprem_date.date_from,'yyyymmdd') AND
+ 					  	 to_char(:ldt_date_to,'yyyymmdd') <= to_char(mst_seqprem_date.date_to,'yyyymmdd') ) ) ;
+
+--------------------------------------------------------
+duplicate
+
+
+ll_row_dw25	= tab_1.tabpage_1.tab_2.tabpage_3.dw_bonus_sp_1.getrow()
+ls_row_id		= tab_1.tabpage_1.tab_2.tabpage_3.dw_bonus_sp_1.getitemstring(ll_row_dw25, 'row_id')
+ls_code_agen	= tab_1.tabpage_1.tab_2.tabpage_3.dw_bonus_sp_1.getitemstring(ll_row_dw25, 'agen_code')
+ld_date_from	= tab_1.tabpage_1.tab_2.tabpage_3.dw_bonus_sp_1.getitemdatetime(ll_row_dw25, 'bonus_dfrom')
+ld_date_to		= tab_1.tabpage_1.tab_2.tabpage_3.dw_bonus_sp_1.getitemdatetime(ll_row_dw25, 'bonus_dto')
+
+
+
+
+for ll_i = 1 to tab_1.tabpage_1.tab_2.tabpage_3.dw_bonus_sp_1.rowcount()
+	ls_row_id_2 	= tab_1.tabpage_1.tab_2.tabpage_3.dw_bonus_sp_1.getitemstring(ll_i, 'row_id')
+	ld_date_from2	= tab_1.tabpage_1.tab_2.tabpage_3.dw_bonus_sp_1.getitemdatetime(ll_i, 'bonus_dfrom')
+	ld_date_to2		= tab_1.tabpage_1.tab_2.tabpage_3.dw_bonus_sp_1.getitemdatetime(ll_i, 'bonus_dto')
+
+	if ls_row_id_2 = ls_row_id then continue
+	if year(date(ld_date_from2)) <> year(date(ld_date_from))  and year(date(ld_date_to2)) <> year(date(ld_date_to)) then continue
+	
+	if ld_date_from2 <= ld_date_to and ld_date_to2 >= ld_date_from then
+		//messagebox("Warning","Data is clashing on the same range!", Exclamation!)//M.SLS.AGENT.0019
+		Messagebox(gf_messagebox_translate('G.MSG.TITLE.0001', 'Warning!', ls_null), &
+					gf_messagebox_translate('M.SLS.AGENT.0019', "Data is clashing on the same range!" , ls_array))
+
+		tab_1.tabpage_1.tab_2.tabpage_3.dw_bonus_sp_1.Setfocus ()
+		return -1
+	end if
+next
+
+---------------------------------------------
+cara pengambilan rowcount di edit source window
+--------------------------------------------------
+
+for li_retcount =  1 to upperbound(istr_arg.ret_column)
+	for li_column = 1 to integer(dw_search.Object.DataWindow.Column.Count)		
+		if upper(istr_arg.ret_column[li_retcount]) = upper(trim( dw_search.Describe("#"+string(li_column)+".Name")))then
+			istr_arg.ret_value[li_retcount]= parent.uf_getitemany(il_rowclick,istr_arg.ret_column[li_retcount])
+			exit
+		end if
+	next
+next
+----------------------
+
+
+w_master2_
+pfc_updateprep
+[CMS] Fix issue & New Layout - Accounts - Manage Program Budgets - Program Budget Definition	
+
+
+[CMS] Fix issue & New Layout - Scheduling - Slot Posting
+
+gf_MessageBox_pbus
+,'',OK!,1)
+
+untuk permasalahan upload pdf bisa dicontek
+w_episode_details_md
+
+mst_censorship_stls
+
+untuk url 
+pke ole web browser microsoft word
+ole1.object.navigate('url')
+----------------------------------------------------------------
+str_glb_report lstr_report
+string ls_win_source,ls_win_select
+long ll_tab,ll_jml
+string ls_arr[],ls_reset[]
+uo_prgm_report luo
+
+for ll_jml = 1 to Upperbound(is_param)
+	f_parsetoArray(is_param[ll_jml],'|',ls_arr)
+	if lower(ls_arr[1]) = lower(as_item) then
+		ls_win_select = ls_arr[2]
+		ls_win_source = ls_arr[3]
+		exit
+	end if
+	ls_arr = ls_reset
+next
+----------------------------------------------------------------
+
+
+/Development Sources/CMS Ver 6.2.1
+
+perbaikan
+str_glb_report
+as_title
+
+w_glb_report_medlib
+ls_win_title
+ls_win_title	= ls_arr[1]
+lstr_report.as_title = ls_win_title
+
+uo_dw_arg_report
+idw_report.object.t_6.text = istr_report.as_title
+
+
+select * from me_print where me_print.WIN_CODE like '%medlib%' 
+
+
+MG_MATERIAL  
+
+
+/Development Sources/CMS Ver 6.2.1
+
+
+
+---------------------------------------------------------
+case 'program'
+		str_search.title = "Select Program Name"
+		str_search.search_data_object = 'd_dddw_blank_programs'
+		str_search.ret_column[1]='prg_code'
+		str_search.get_column[1]='prg_code'
+		
+//		gnv_modal.openmodal(w_search_new,str_search,true)
+	f_open_search(str_search,'0',true)
+		if isValid(message.powerobjectparm) then
+			str_search = message.powerobjectparm
+				If str_search.ret_column[1] <> '-1' then
+					dw_1.setitem(ll_row,'program',str_search.ret_value[1])
+				End If
+			destroy message.powerobjectparm
+		end if
+		return 1
+
+
+
+
+Stock Shoot Keyword 174
+iuo_items[al_parent].of_AddItem(as_label, as_picture, al_style)
+
+n_cst_file_image
+st_sps_series
+
+---------------------------------------------------------------
+	ls_row_id				= this.object.row_id.primary.current[row]
+		ls_schobj_time			= this.object.schobj_time.primary.current[row]
+		ls_spot_code			= this.object.prod_code.primary.current[row]
+		ls_spot_ver				= this.object.prod_version.primary.current[row]
+		ls_material_code		= this.object.material_code.primary.current[row]
+		ls_house_no				= this.object.house_no.primary.current[row]
+		ls_pathname			= this.object.pathname.primary.current[row]
+
+
+------------------------------------------------------------------------
+
+SELECT COUNT(*)
+	INTO :ll_count
+  FROM MG_MATERIAL 
+ WHERE FLAG_EVENT ='Y';
+ 
+ if ll_count > 0 then 
+	SELECT URL
+		INTO :ls_url
+		FROM MG_MATERIAL 
+	 WHERE FLAG_EVENT ='Y';
+	 openwithparm(w_media_browser,ls_null)
+else
+
+----------------------------------------------------------------------------
+global function integer f_cek_required (datawindow dw);// function   : f_cek_required( datawindow dw )
+// deskripsi  : Untuk mencek column-column yang harus diisi (required)
+//	             dan menampilkan pesan jika column tsb tidak diisi.
+//	    			 Required column tsb harus diberi <tag> sesuai dengan 
+//					 label column tsb.
+// return 	  : 1 (success) , -1 (ada column yg tidak diisi)
+
+string sTemp
+long lRowCount, lColCount, i, j
+string ls_obj,ls_objtext,ls_array[]
+dwitemstatus l_status
+SetPointer(HourGlass!)
+lRowCount = dw.RowCount()
+lColCount = long(dw.Describe("DataWindow.Column.Count"))
+if dw.AcceptText() = -1 then return -1
+
+// Cek setiap column untuk setiap row
+For i = 1 to lRowCount
+	l_status = dw.GetItemStatus(i,0,Primary!)
+	IF l_status <> NotModified! THEN
+		FOR j = 1 TO lColCount
+			sTemp = Trim(String(dw.object.data[i,j]))
+			IF isNull(sTemp) THEN sTemp = ""
+			IF sTemp <> "" THEN CONTINUE
+			sTemp = dw.Describe("#" + String(j) + ".tag")		
+			IF sTemp <> "" THEN 
+				IF sTemp <> "?" THEN
+					ls_obj = trim(dw.Describe("#" + String(j) + ".name"))
+					ls_objtext = dw.Describe(ls_obj + "_t.text")
+					IF ls_objtext <> "" THEN 
+						IF ls_objtext <> "?" THEN
+							IF ls_objtext <> "!" THEN
+								sTemp = ls_objtext
+							END IF
+						END IF
+					END IF
+					//Deny 02012021 Change due to Multilanguange
+					//g_msg.messagebox("Validation Error","Sorry! " +sTemp + " cannot be Empty.")
+					ls_array[1] = sTemp 
+					g_msg.messagebox(gf_messagebox_translate('G.MSG.TITLE.0031', 'Validation Error', ls_array),&
+					gf_messagebox_translate('G.MSG.TITLE.0030', 'Sorry! '+sTemp+'cannot be Empty.', ls_array),Exclamation!)
+					sTemp = dw.Describe("#" + String(j) + ".name")
+					dw.SetFocus()
+					dw.ScrollToRow(i)
+					dw.SetColumn(sTemp)
+					RETURN -1
+				END IF
+			END IF
+		NEXT
+	END IF
+Next
+
+RETURN 1
+--------------------------------------
+1.cek dw nested/composite
+2. aktifkan ruler
+
+if Lower(this.Describe("DataWindow.Nested")) = 'yes' then
+	if Lower(this.Describe("DataWindow.Print.Preview.Rulers"))= 'yes' then
+		this.Object.DataWindow.Print.Preview.Rulers = 'No' 
+	else 
+		this.Object.DataWindow.Print.Preview.Rulers = 'yes' 
+	end if
+end if
+-----------------------------------------------
+cara retrive semua dw
+-----------------------------------------------
+boolean lb_genap = true
+integer li_bound
+integer li_count
+integer li_jml
+
+string ls_arr_arg[]
+any la_any[]
+string ls_nulls[]
+string ls_arrays[]
+//if of_validate_mandatory() = -1 then return
+
+if f_Trans(T_Report) = -1 then return
+
+IF IsValid(idw_report) THEN	
+	idw_report.settransobject(T_Report)
+ELSE
+//	g_msg.messagebox('Information','Invalid Report!')
+	g_msg.messagebox(gf_messagebox_translate('G.MSG.TITLE.0003', 'Information', ls_nulls), &
+	gf_messagebox_translate('T.SLS.GBRPT.0020', 'Invalid Report!',  ls_arrays))
+	return
+END IF
+
+if istr_report.as_dw_arg <> '' then
+	if of_validate() = -1 then return
+	if of_validate_greater() = -1 then return 
+	
+	li_count = integer(dw_1.object.datawindow.column.count)
+	for li_jml = 1 to li_count
+		of_getitem(li_jml,la_any)
+	next
+	
+	li_bound = 100 - Upperbound(la_any[])
+	
+	FOR li_jml = 1 to li_bound
+		la_any[Upperbound(la_any[]) + 1]	 = ""
+	NEXT
+	
+	idw_report.Retrieve( &
+		la_any[1],la_any[2],la_any[3],la_any[4],la_any[5], &
+		la_any[6],la_any[7],la_any[8],la_any[9],la_any[10],  &
+		la_any[11],la_any[12],la_any[13],la_any[14], la_any[15], &
+		la_any[16],la_any[17],la_any[18], la_any[19],la_any[20], &
+		la_any[21],la_any[22],la_any[23],la_any[24], la_any[25], &
+		la_any[26],la_any[27],la_any[28], la_any[29],la_any[30], &
+		la_any[31],la_any[32],la_any[33],la_any[34], la_any[35], &
+		la_any[36],la_any[37],la_any[38], la_any[39],la_any[40], &
+		la_any[41],la_any[42],la_any[43],la_any[44], la_any[45], &
+		la_any[46],la_any[47],la_any[48], la_any[49],la_any[50], &
+		la_any[51],la_any[52],la_any[53],la_any[54], la_any[55], &
+		la_any[56],la_any[57],la_any[58], la_any[59],la_any[60], &
+		la_any[61],la_any[62],la_any[63],la_any[64], la_any[65], &
+		la_any[66],la_any[67],la_any[68], la_any[69],la_any[70], &
+		la_any[71],la_any[72],la_any[73],la_any[74], la_any[75], &
+		la_any[76],la_any[77],la_any[78], la_any[79],la_any[80], &
+		la_any[81],la_any[82],la_any[83],la_any[84], la_any[85], &
+		la_any[86],la_any[87],la_any[88], la_any[89],la_any[90], &
+		la_any[91],la_any[92],la_any[93],la_any[94], la_any[95], &
+		la_any[96],la_any[97],la_any[98], la_any[99],la_any[100] &
+		)
+	
+	if idw_report.rowcount() > 0 then
+		//ls_result = 
+		if idw_report.Describe("st_header.Text") <> '!' then
+			idw_report.object.st_header.text = g_a.uf_getConfig('000')
+		end if
+		if idw_report.Describe("st_footer.Text") <> '!' then
+			idw_report.object.st_footer.text = idw_report.dataobject +'    ' +gs_username +'    ' +string(gf_serverdate(),'dd mmm yyyy    hh:mm:ss')
+		end if
+	end if
+
+	Trigger Event ue_retrieveend(idw_report)
+	
+Else
+	idw_report.retrieve()
+end if
+---------------------------------------------------------
+rowcount via object
+li_count = integer(dw_1.object.datawindow.column.count)
+---------------------------------------------------------
+//
+integer li_jml
+integer li_pos
+
+string ls_type
+string ls_coltype
+
+FOR li_jml = 1 to Upperbound(as_object[])
+	ls_type = dw_1.Describe(as_object[li_jml]+".type")
+	ls_coltype = dw_1.Describe(as_object[li_jml]+".Coltype")
+	
+//	IF lower(ls_type) = 'compute' THEN
+		IF lower(ls_Coltype) = 'datetime' THEN
+			aa_arg[Upperbound(aa_arg[]) + 1] = dw_1.getitemdate(1,as_object[li_jml])
+		ELSEIF lower(ls_coltype) = 'date' THEN
+			aa_arg[Upperbound(aa_arg[]) + 1] = dw_1.getitemdatetime(1,as_object[li_jml])
+		ELSEIF pos(ls_coltype,'char') > 0 THEN
+			aa_arg[Upperbound(aa_arg[]) + 1] = dw_1.getitemstring(1,as_object[li_jml])
+		ELSEIF pos(ls_coltype,'int') > 0 OR pos(ls_coltype,'long') > 0 OR pos(ls_coltype,'number') > 0 THEN
+			aa_arg[Upperbound(aa_arg[]) + 1] = dw_1.getitemnumber(1,as_object[li_jml])
+		ELSEIF pos(ls_coltype,'dec') > 0 THEN
+			aa_arg[Upperbound(aa_arg[]) + 1] = dw_1.getitemdecimal(1,as_object[li_jml])
+		END IF
+//	ELSE
+//		
+//	END IF
+NEXT
+---------------------------------------------------------
+debug scrip
+dbms_output.put_line("");
+    
+raise_application_error(-20001, "");
+-----------------------------------------------------------
+
+cara ngambil colume yg ga boleh null
+// function   : f_cek_required( datawindow dw )
+// deskripsi  : Untuk mencek column-column yang harus diisi (required)
+//	             dan menampilkan pesan jika column tsb tidak diisi.
+//	    			 Required column tsb harus diberi <tag> sesuai dengan 
+//					 label column tsb.
+// return 	  : 1 (success) , -1 (ada column yg tidak diisi)
+
+string sTemp
+long lRowCount, lColCount, i, j
+string ls_obj,ls_objtext,ls_array[]
+dwitemstatus l_status
+SetPointer(HourGlass!)
+lRowCount = dw.RowCount()
+lColCount = long(dw.Describe("DataWindow.Column.Count"))
+if dw.AcceptText() = -1 then return -1
+
+// Cek setiap column untuk setiap row
+For i = 1 to lRowCount
+	l_status = dw.GetItemStatus(i,0,Primary!)
+	IF l_status <> NotModified! THEN
+		FOR j = 1 TO lColCount
+			sTemp = Trim(String(dw.object.data[i,j]))
+			IF isNull(sTemp) THEN sTemp = ""
+			IF sTemp <> "" THEN CONTINUE
+			sTemp = dw.Describe("#" + String(j) + ".tag")
+			
+			//skip greater column validation
+			if left(trim(sTemp),1) = '*' and right(trim(sTemp),1) <> '+' then continue
+			
+			IF sTemp <> "" THEN 
+				IF sTemp <> "?" THEN
+					ls_obj = trim(dw.Describe("#" + String(j) + ".name"))
+					ls_objtext = dw.Describe(ls_obj + "_t.text")
+					IF ls_objtext <> "" THEN 
+						IF ls_objtext <> "?" THEN
+							IF ls_objtext <> "!" THEN
+								sTemp = ls_objtext
+							END IF
+						END IF
+					END IF
+					//Deny 02012021 Change due to Multilanguange
+					//g_msg.messagebox("Validation Error","Sorry! " +sTemp + " cannot be Empty.")
+					ls_array[1] = sTemp 
+					g_msg.messagebox(gf_messagebox_translate('G.MSG.TITLE.0031', 'Validation Error', ls_array),&
+					gf_messagebox_translate('G.MSG.TITLE.0030', 'Sorry! '+sTemp+' cannot be Empty.', ls_array),Exclamation!)
+					sTemp = dw.Describe("#" + String(j) + ".name")
+					dw.SetFocus()
+					dw.ScrollToRow(i)
+					dw.SetColumn(sTemp)
+					RETURN -1
+				END IF
+			END IF
+		NEXT
+	END IF
+Next
+------------------------------------------------------ 
+
+skrp buat copy data
+string ls_data, ls_message
+
+if this.rowcount( ) > 0 then
+	if dwo.name = 'inv_no' then
+		ls_data = this.object.inv_no[row]
+		ls_message = 'Invoice #'
+	elseif dwo.name = 'agen_tax_id' then
+		ls_data = this.object.agen_tax_id[row]
+		ls_message = 'NPWP No'
+	elseif dwo.name = 'tb_airtime_inv_tax_no' then
+		ls_data = this.object.tb_airtime_inv_tax_no[row]
+		ls_message = 'Tax #'
+	elseif dwo.name = 'tax_no' then
+		ls_data = this.object.tax_no[row]
+		ls_message = 'Tax #'
+	elseif dwo.name = 'pack_no' then
+		ls_data = this.object.pack_no[row]
+		ls_message = 'Package #'
+	elseif dwo.name = 'mo_no' then
+		ls_data = this.object.mo_no[row]
+		ls_message = 'MO No'
+	elseif dwo.name = 'inv_po' then
+		ls_data = this.object.inv_po[row]
+		ls_message = 'PO No'
+	end if
+	if isnull(ls_data) or trim(ls_data) = '' then
+		ls_data = ''
+	else
+		g_msg.messagebox('Information', ls_message + ' : ' + ls_data + ' copied' )
+		::Clipboard(ls_data)
+	end if	
+end if
+---------------------------------------------------------------------
+cara panggil eventtriger
+cb_ok.triggerevent(clicked!)
+-------------------------------------
+
+= Format("{0:0#:0#:0#:0#}", cint(Fields.DUR_BOOKING)) 
+
+untuk mengkorversi durasi di telerik
+---------------------------------------
+f_detik_to_jam
+CREATE OR REPLACE FUNCTION GEN21_22.F_DETIK_TO_JAM(
+    P_DETIK   IN   INTEGER
+)
+    RETURN VARCHAR2 IS
+    v_hh   VARCHAR2( 3 );
+    v_mm   VARCHAR2( 3 );
+    v_ss   VARCHAR2( 3 );
+    v_fr   VARCHAR2( 3 );
+ ls_return varchar2(8);
+
+BEGIN
+    IF P_DETIK >= 99999 THEN
+        RETURN '99999900';
+    END IF;
+   
+    v_hh := TO_CHAR( FLOOR( MOD( P_DETIK / 3600, 24 ) ), '00' );
+    v_mm := TO_CHAR( FLOOR( MOD( P_DETIK / 60, 60 ) ), '00' );
+    v_ss := TO_CHAR( FLOOR( MOD( P_DETIK, 60 ) ), '00' );
+    
+ v_fr := to_char( ( p_detik -  ( (to_number(v_hh)*3600) + (to_number(v_mm)*60) + to_number(v_ss) ) ) * 25 ,'00' ) ;
+
+ ls_return := LTRIM( v_hh ) || LTRIM( v_mm ) || LTRIM( v_ss ) || LTRIM(v_fr);
+    RETURN ls_return ;
+END;
+/
+
+----------------------------------------------
+telerik fungsi untuk jam sampe mili detik
+
+=Format("{0:0#}",FLOOR( ( Sum(IsNull(Fields.CB_DUR_TOTAL,0)) / 3600) mod 24 ) ) +':'  +Format("{0:0#}",FLOOR( ( SUM(IsNull(Fields.CB_DUR_TOTAL,0)) / 60) mod 60 ) )  +':'+  Format("{0:0#}",FLOOR( ( SUM(IsNull(Fields.CB_DUR_TOTAL,0))) mod 60 ) ) +':'+ 
+IIF(SUM(Fields.CB_DUR_TOTAL) - (((FLOOR((SUM(Fields.CB_DUR_TOTAL)/ 3600) mod 24 ))*3600)+
+	((FLOOR((SUM(Fields.CB_DUR_TOTAL)/60)mod 60))*60)+(FLOOR(SUM(Fields.CB_DUR_TOTAL) mod 60)))*25 <0,
+'00',	Format("{0:0#}",Floor(SUM(Fields.CB_DUR_TOTAL )- (((FLOOR(((Fields.CB_DUR_TOTAL)/ 3600) mod 24 ))*3600)+
+	((FLOOR((SUM(Fields.CB_DUR_TOTAL)/60)mod 60))*60)+
+	(FLOOR(SUM(Fields.CB_DUR_TOTAL) mod 60))
+	)*25))
+	)
+
+----------------------------------
+Can't stat 'E:\_SAAS\SAAS\GEN21_ENTERPRISE\Bms\ReportPages\.svn': The file or

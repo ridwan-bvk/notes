@@ -1,0 +1,535 @@
+135
+selesai
+mrktg_mast_ms_win.pbl:
+w_mst_package_type
+
+11:26 AM 11/25/2021
+136
+selesai pengerjaan 
+objek :
+mrktg_mast_ms_win.pbl (w_me_package_group)
+
+137
+
+selesai pengerjaan
+objek :
+mrktg_mast_ms_win.pbl (w_mst_regulation)
+
+---------------------------------------------------
+tab_1.tabpage_1.uo_tabcontrol_2.of_openpbtab(tab_1.tabpage_1.tab_2)
+------------------------------------------------------
+------------------
+set tema warna
+-----------------------
+n_cst_color_object ln_cst_color_object
+
+ln_cst_color_object = create n_cst_color_object
+ln_cst_color_object.uf_set_dw_color0(tab_1.tabpage_1.tab_detail.tabpage_3.dw_reg_dtl)
+
+destroy ln_cst_color_object
+
+
+10:22 AM 11/26/2021
+
+//lm_menu.m_navigation.popmenu(ParentWindow().PointerX(), ParentWindow().PointerY())
+rubah jadi
+lm_menu.m_navigation.popmenu(gw_frame.PointerX(), gw_frame.PointerY())
+object
+
+w_int_spot_type_perc : d_int_spot_type_hdr
+
+RPR
+mrktg_mast_srg
+w_int_spot_type_perc (insert colom name kepanjngan)
+
+4:19 PM 11/30/2021
+
+sales_mast_ms_win: w_mt_prod_cost
+
+1:57 PM 12/1/2021
+-------------------------------
+
+selesai pengerjaan 
+object : w_me_scheme_rule
+
+Standard Availability
+
+gen21_comm_cm_win : w_oracle_messagebox_cancel,w_oracle_messagebox,w_oracleerror,w_error
+trffc_logm_tr_win :w_oracle_messagebox_booking,w_oracle_messagebox_booking
+gen_21_comm_cm_dwo : d_oracle_messagebox
+
+2:30 PM 12/6/2021
+yg belum
+d_me_userg_2
+
+menu : user group
+menu :use features authorization(s) : 
+	scrty_usgr_ms_dwo
+d_me_user1_grid, 
+d_mst_user_features_grid
+d_mst_user_features_grid2
+d_me_userg_2
+d_me_user1_1
+d_me_user3_1
+d_me_user_2
+menu :alert authorization
+	gen21_bext_cm_dwo:
+d_alert_user_auth
+gen21_comm_cm_dwo:
+d_ae_runno_format_browse
+	mngmt_genr_ms_dwo:
+d_mg_rights_channel
+menu : calender event
+sched_msbn_ms_dwo
+d_mst_cal_day
+
+9:32 AM 12/7/2021
+mngmnt_genr_ms_dwo
+object : d_mg_machine_02,d_mt_spottype_series_spot
+d_mg_schobj_02
+w_mt_baserates
+sales_mast_ms_dwo
+object : d_mt_baserates,d_user_channel_mon
+mngmnt_acon_ms_dwo
+object:d_ae_run
+sched_msbp_ms_dwo
+d_slot_timezone_date_browse
+d_mp_catslot_02
+d_mp_catgenre_02
+sched_msbn_ms_dwo
+d_mp_film_01
+sched_msbn_ms_dwo
+d_me_config_icon_tab_browse
+d_mg_localprog_dtl
+d_singinsignoff_browse
+sales_pomo_tr_win
+d_st_po_payments_manual
+sales_mkgd_tr_win
+d_sales_mgoffer_browse_sp
+d_sales_mganswer_browse_sp
+sched_slot_tr_win
+d_sales_approval_not_show
+gen21_clas_cm_obj
+d_mt_agen_popup_act
+d_st_late_order502
+sales_mast_ms_dwo
+d_mp_ae_tz_dtl_grid
+d_mp_tzone_targets_dtl
+d_mt_country_02
+d_disc_scheme_browse
+d_tp_bonus_period_form
+d_tp_bonus_period_browse
+sales_bons_tr_win
+d_tp_bonus_ending
+d_tp_bonus_period_browse
+d_tp_bonus_period_form
+sales_mast_cm_dwo
+d_mt_cb_pattern_02
+d_mt_cb_spec_pattern_browse
+d_mt_client1_01
+d_mt_agen_bonus_01
+d_mt_agen_podiscount
+d_mt_agen_02
+d_mt_client_02
+d_mt_client_agen
+d_mt_client_prod
+d_mt_client_susp
+d_mt_clientg_02
+
+d_mt_rel_prod_cat
+d_mt_prod_bonus
+d_mt_product1_01_1
+d_mt_product_02_new
+d_mt_productg_02_new
+d_subproduct_category
+d_mt_clr_time
+d_mt_cat_clear_02
+d_mt_salesman_02
+d_mt_reason_02
+d_mt_pre_reason
+d_mt_mkgd_tlrc_2
+d_mt_mkgd_tlrc_3
+d_mg_bonus
+d_mt_sponsorship_02
+d_mt_sponsorship_03
+d_mst_special_pos
+d_mediaorder_mo_list
+d_mediaorder_spot_summary
+d_mediaorder_mo_spot
+d_taffic_log_filter
+d_taffic_log_filter_bulkprempt
+d_bulk_promo_list
+d_promo_approval
+d_sponsor_grid
+d_mt_promo_def_rz
+d_mt_promo_def_rt
+d_mt_promo_def_procat
+d_mt_promo_def_pro
+d_st_pkg_int_synopsis
+d_st_pkg_int_grp_lines_hist
+d_sales_reservation_pkg
+d_st_pkg_ext_dtl
+d_st_pkg_ext_dtl_hist
+d_st_pkg_int_grp_lines_hist
+d_st_pkg_int_grp_remain
+d_st_pkg_int_grp_type_grid
+d_st_pkg_int_grp_type_grid_hist
+d_st_pkg_int_synopsis
+d_mst_pkg_type_browse_pdk
+d_mst_regulation_detailst
+d_mst_regulation_hdr_hist
+d_mst_regulation_hdr_browse
+d_cprp_cal_browse
+d_mst_billcom_sponsor_target
+d_mst_billcom_sponsor_target_hist
+d_mst_billcom_flat_rate_list
+d_mst_billcom_flat_rate_hist
+d_mst_billcom_cprp_ta
+d_mst_billcom_gmc_target
+d_mst_billcom_pib_list
+d_mst_billcom_target_dbi_hist
+d_mst_billcom_flat_rate_tvc_geo2
+d_mst_billcom_getbuy_geo
+d_mst_billcom_getbuy_geo_hist
+d_mst_billcom_cost_dbi
+d_mst_billcom_cost_dbi_hist
+d_mst_billcom_flaterate_dbi
+d_mst_billcom_flaterate_dbi_hist
+d_mst_billcom_cprp_mcr_wc
+d_billcom_cprp_mcr_wc_hist
+d_filterprogram_timezone_s1_billcom
+d_billcom_cprp_pf_cat_hist
+d_billcom_cprp_pf_prog_restrict_hist
+d_filterprogram_timezone_s1_billcom_hist
+d_billcom_cprp_pb_hist
+d_mst_billcom_browse
+d_marketing_timezone_date_browse
+d_marketing_pibtime_date_browse
+d_mst_spot_plan_browse
+d_mst_availability_browse
+dw_mt_general_pricelist
+dw_mt_general_pricelist_group
+d_mt_sps_gen_pricelist_hist_1
+d_mst_target_dbi
+d_mst_target_dbi_hist
+d_mst_general_getbuy_geo
+d_mst_general_getbuy_geo_hist
+d_mst_series_group
+d_mst_series_group_hist
+d_mst_cprp_catprog_restrict_browse
+d_billing_period
+d_mt_pbb_receipt_browse
+d_mt_digital_sign_hist
+d_mt_digital_sign_search
+d_gen_receipt_ar_dellog
+d_invlite_run_master_newlook
+d_invlite_run_profilm_detail_new
+d_invlite_media_hdr_newlook
+d_qc_recommend
+d_invlite_media_hdr_newlook
+d_invlite_ma_depend2
+d_invlite_epi_hdr_newlook
+----------------------------------------
+marchine source
+spot type
+spot type group
+tx bas rate
+chanel monitor
+running number
+costum field
+
+segmen memo v
+program info v-
+program category by time
+program/banner master
+program/banner group master v
+production format v
+sign -sign off v
+local program v
+
+Po receive v
+form :
+sales PO registration
+bonus definition
+automatic version rule
+revenue sharing
+PO TVC Geo
+
+sales makegood offer v
+sales Approval v
+late order form v
+upload PO resercations import v
+approval change channel  v
+ae related v
+--time zone master
+--time zone target
+general
+-- country v
+-- discount scheme v
+--bonus period v
+--bonus prorate v
+
+cb pattern
+--cb pattern v
+--CB spec Pattern v
+--segment group v
+
+agency
+--acency v
+--agency group v
+
+client
+--client v
+--client group v
+
+product
+--product v
+--product category v
+--category clearance v
+
+acount executive
+--acount executive v
+--sales region Group v
+
+9:33 AM 12/8/2021
+rate
+--slot rate card
+
+preemption reson v
+master makgood tolerance v
+ratezone v
+master bundling v
+special position v
+trafic
+-------
+traffic daily closing v
+media order summary v
+move to wait list v
+bulk premption  v
+promo
+---------
+promo scheduller v
+promo approval v
+promo material v
+sponsor type v
+promo template v
+promo default v
+packeges(s)/deals v
+
+CPRP
+cprp guarantee v 
+compensation spot placement v
+simulation minimum rate v
+internal rate v
+internal spot type percentage v
+program group v
+agb neilsen rating years v
+billing commitment v
+marketting time zone v
+marketing pib time v
+marketing spot planning v
+standar availability v
+agreement availability v
+master general price list v
+master group price list v
+master template pricelist v
+master approval limit v
+master structure package v
+master target dbi v
+master general buy x get y tvc geo retail v
+master series group v
+master cprp program category restriction v
+master package program category restriction v
+
+
+ctsi
+continues learning
+
+9:52 AM 12/9/2021
+billing close day v
+import as run v
+log reconciliation v
+mcr note v
+
+billing
+billing periode v
+proforma invoice v
+proforma receipts v
+cancelled invoince v
+maintenence tax invoice v
+invoice receipt v
+CN(Air Time)-Spot v
+CN Tax Invoice v
+DN(Air time) v
+Digital Sign v
+
+Ar module
+posting to AR v
+advance Receipt v
+general receipt v
+general delete v
+
+program content
+program management v
+
+target audience
+tx area
+
+promo material 
+promo version
+
+----------
+selesai pengerjaan
+object:
+d_mt_baserates, d_user_channel_mon, d_mg_machine_02, d_mt_spottype_series_spot, d_mg_schobj_02,d_ae_run,
+d_slot_timezone_date_browse, d_mp_catslot_02, d_mp_catgenre_02, d_mp_film_01, d_me_config_icon_tab_browse, d_mg_localprog_dtl,
+d_singinsignoff_browse, d_st_po_payments_manual, d_sales_mgoffer_browse_sp, d_sales_mganswer_browse_sp
+d_sales_approval_not_show, d_mt_agen_popup_act,
+d_st_late_order502, d_mp_ae_tz_dtl_grid, d_mp_tzone_targets_dtl, d_mt_country_02
+d_disc_scheme_browse, d_tp_bonus_period_form
+d_tp_bonus_period_browse, d_tp_bonus_ending
+d_tp_bonus_period_browse, d_tp_bonus_period_form
+d_mt_cb_pattern_02, d_mt_cb_spec_pattern_browse
+d_mt_client1_01, d_mt_agen_bonus_01, d_mt_agen_podiscount, d_mt_agen_02
+d_mt_client_02, d_mt_client_agen, d_mt_client_prod, d_mt_client_susp
+d_mt_clientg_02, d_mt_rel_prod_cat, d_mt_prod_bonus, d_mt_product1_01_1
+d_mt_product_02_new, d_mt_productg_02_new, d_subproduct_category, d_mt_clr_time
+d_mt_cat_clear_02, d_mt_salesman_02, d_mt_reason_02, d_mt_pre_reason
+d_mt_mkgd_tlrc_2, d_mt_mkgd_tlrc_3, d_mg_bonus, d_mt_sponsorship_02
+d_mt_sponsorship_03, d_mst_special_pos, d_mediaorder_mo_list,d_mediaorder_spot_summary
+d_mediaorder_mo_spot, d_taffic_log_filter, d_taffic_log_filter_bulkprempt, d_bulk_promo_list
+d_promo_approval, d_sponsor_grid, d_mt_promo_def_rz, d_mt_promo_def_rt
+d_mt_promo_def_procat, d_mt_promo_def_pro, d_st_pkg_int_synopsis, d_st_pkg_int_grp_lines_hist
+d_sales_reservation_pkg, d_st_pkg_ext_dtl, d_st_pkg_ext_dtl_hist, d_st_pkg_int_grp_lines_hist
+d_st_pkg_int_grp_remain, d_st_pkg_int_grp_type_grid, d_st_pkg_int_grp_type_grid_hist, d_st_pkg_int_synopsis
+d_mst_pkg_type_browse_pdk, d_mst_regulation_detailst, d_mst_regulation_hdr_hist, d_mst_regulation_hdr_browse
+d_cprp_cal_browse, d_mst_billcom_sponsor_target, d_mst_billcom_sponsor_target_hist, d_mst_billcom_flat_rate_list
+d_mst_billcom_flat_rate_hist, d_mst_billcom_cprp_ta,d_mst_billcom_gmc_target, d_mst_billcom_pib_list
+d_mst_billcom_target_dbi_hist, d_mst_billcom_flat_rate_tvc_geo2
+d_mst_billcom_getbuy_geo, d_mst_billcom_getbuy_geo_hist, d_mst_billcom_cost_dbi, d_mst_billcom_cost_dbi_hist
+d_mst_billcom_flaterate_dbi, d_mst_billcom_flaterate_dbi_hist, d_mst_billcom_cprp_mcr_wc
+d_billcom_cprp_mcr_wc_hist, d_filterprogram_timezone_s1_billcom, d_billcom_cprp_pf_cat_hist
+d_billcom_cprp_pf_prog_restrict_hist, d_filterprogram_timezone_s1_billcom_hist, d_billcom_cprp_pb_hist
+d_mst_billcom_browse, d_marketing_timezone_date_browse, d_marketing_pibtime_date_browse
+d_mst_spot_plan_browse, d_mst_availability_browse, dw_mt_general_pricelist, dw_mt_general_pricelist_group
+d_mt_sps_gen_pricelist_hist_1, d_mst_target_dbi, d_mst_target_dbi_hist, d_mst_general_getbuy_geo,
+d_mst_general_getbuy_geo_hist, d_mst_series_group, d_mst_series_group_hist, d_mst_cprp_catprog_restrict_browse
+d_billing_period, d_mt_pbb_receipt_browse, d_mt_digital_sign_hist, d_mt_digital_sign_search
+d_gen_receipt_ar_dellog, d_invlite_run_master_newlook, d_invlite_run_profilm_detail_new
+d_invlite_media_hdr_newlook, d_qc_recommend, d_invlite_media_hdr_newlook, d_invlite_ma_depend2, d_invlite_epi_hdr_newlook, 
+1:32 PM 12/10/2021
+spot type Group v
+cb/ segment v
+program/banner master v
+late order form v
+aproval chang channel v
+cb pattern v
+product V
+trafic daily closing w_closing Vv
+packages/ detail dsa V
+cprp guarantee V
+cprp level V
+internal rate V
+internal spot type percentage V
+move to wait list V
+bulk premption V
+promo material V 
+master price list ROS V
+master template price list V
+cancel invoice V
+change prin flag
+
+
+9:37 AM 12/13/2021
+promo schedule
+promo material - dibrowse- prom version
+promo material - promo child tag product
+
+d_mt_promo_ver_child
+d_mr_promo_tags_product_grid
+2:07 PM 12/13/2021
+m_distri_frame
+d_purchase_date_rep_terr_rights
+
+1. menu: Library Status Report
+object : w_tape_returned_rep
+
+SET DEFINE OFF;
+Insert into ME_PRINT
+   (WIN_CODE, WIN_TEXT, WIN_SOURCE, WIN_SELECT, WIN_RETRICT, 
+    UPDATE_USER, UPDATE_DATE, ROW_ID, CHANNEL_REQ, CATEGORY, 
+    MODULE, PRIORITY, IS_VISIBLE)
+ Values
+   ('medlibReport', 'Library Status Report', 'd_return_to_distri', 'd_select_period_recmat_rep', 'N', 
+    'GEN21DC', sysdate, get_row_id, 'N', 'Report', 
+    'Media Library Report', '1', 'Y');
+COMMIT;
+
+2. menu: Library Status Report ( ARR Date )
+object : w_lib_chkout_rep,w_lib_chkout_rep_zoom
+
+SET DEFINE OFF;
+Insert into ME_PRINT
+   (WIN_CODE, WIN_TEXT, WIN_SOURCE, WIN_SELECT, WIN_RETRICT, 
+    UPDATE_USER, UPDATE_DATE, ROW_ID, CHANNEL_REQ, CATEGORY, 
+    MODULE, PRIORITY, IS_VISIBLE)
+ Values
+   ('medlibReport', 'Library Status Report ( ARR Date )', 'd_lib_chkout_rep_new', 'd_input_lib_checkout_rep', 'N', 
+    'GEN21DC', sysdate, get_row_id, 'N', 'Report', 
+    'Media Library Report', '1', 'Y');
+COMMIT;
+
+SET DEFINE OFF;
+Insert into ME_PRINT
+   (WIN_CODE, WIN_TEXT, WIN_SOURCE, WIN_SELECT, WIN_RETRICT, 
+    UPDATE_USER, UPDATE_DATE, ROW_ID, CHANNEL_REQ, CATEGORY, 
+    MODULE, PRIORITY, IS_VISIBLE)
+ Values
+   ('medlibReport', 'Library Status Report ( ARR Date )', 'd_lib_chkout_rep_grid_zoom', 'd_input_lib_checkout_rep_zoom', 'N', 
+    'GEN21DC', sysdate, get_row_id, 'N', 'Report', 
+    'Media Library Report', '1', 'Y');
+COMMIT;    
+
+3. menu :Returned Media Report
+object: w_tapemovement_rep
+SET DEFINE OFF;
+Insert into ME_PRINT
+   (WIN_CODE, WIN_TEXT, WIN_SOURCE, WIN_SELECT, WIN_RETRICT, 
+    UPDATE_USER, UPDATE_DATE, ROW_ID, CHANNEL_REQ, CATEGORY, 
+    MODULE, PRIORITY, IS_VISIBLE)
+ Values
+   ('medlibReport', 'Returned Media Report', 'd_tapemovement_rep', 'd_select_tapemovemnt_rep', 'N', 
+    'GEN21DC', sysdate, get_row_id, 'N', 'Report', 
+    'Media Library Report', '1', 'Y');
+COMMIT;  
+-------------------------------------
+object: m_main_ribbon
+addsc: w_glb_report_medlib
+edit disini : uo_dw_arg_report
+------------------------------------------
+n_cst_dokctiming
+
+transcription QC User
+program budget defenition
+
+tab_1.selecttab(3)
+uo_tabcontrol.of_selecttab(3)
+
+iu_PowerFilter = create n_cst_PowerFilter
+iu_PowerFilter.of_setdw(tab_1.tabpage_2.dw_header)
+iu_PowerFilter.of_setparentwindow(this)
+
+IF iu_PowerFilter.checked THEN 
+	iu_PowerFilter.checked = FALSE
+	tab_1.tabpage_2.dw_header.setfilter("")
+	tab_1.tabpage_2.dw_header.Filter()
+ELSE
+	iu_PowerFilter.checked = TRUE
+END IF
+iu_PowerFilter.event ue_clicked()
+
+10:24 AM 1/18/2022
+5.lateorder spot filternya belum bener seutuhnya
+promo plan filter
+late order prom bakcup button ga muncul
+late order promo belum set warna
