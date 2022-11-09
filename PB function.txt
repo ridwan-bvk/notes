@@ -902,3 +902,73 @@ IIF(SUM(Fields.CB_DUR_TOTAL) - (((FLOOR((SUM(Fields.CB_DUR_TOTAL)/ 3600) mod 24 
 
 ----------------------------------
 Can't stat 'E:\_SAAS\SAAS\GEN21_ENTERPRISE\Bms\ReportPages\.svn': The file or
+
+LIS PWRD SERVER
+https://docs.google.com/spreadsheets/d/1QBfE7K6rUe2ql1BLx3_NWl_8ZD3X5hUN/edit?usp=sharing&ouid=107892270291353539095&rtpof=true&sd=true
+
+
+MENU DI GEN HARUS DI INSERT
+G_FUNMOD buat license (gen21level())
+mst_features autontifikasi(wf_features)
+
+d_chg_spot_type
+
+
+cara ambil data yg dikolom dan set select semua/tidak di event clicked
+------------------------------------------------------
+// select and unselect
+// add by dudi 20200702
+String	ls_text
+Long		i
+Integer	li_data
+string ls_data
+long ll_sum_check
+
+this.accepttext()
+
+// check if user click on header for select/unselect and not display slots
+IF dwo.name = "data_selected_t" THEN
+	// if header is select then select all
+	IF Lower(This.Describe(dwo.name+".text")) = "select" THEN
+		ls_text = "UnSelect"
+		li_data = 1
+		ls_data = 'Y'
+	ELSE	// if header is unselect then unselect all
+		ls_text = "Select"
+		li_data = 0
+		ls_data = 'N'
+	END IF
+	// set text title header
+	This.Modify(dwo.name+".Text = '"+ls_text+"'")
+	// set data selected/unselected
+	FOR i = 1 TO This.RowCount()
+		This.Object.selectcprprow[i] = ls_data
+	NEXT		
+END IF
+
+----------------------------------------------------------
+10:47 AM 11/8/2022
+cara memecah kan array
+a_col_arg = {nama_kolom1,nama_kolom2}
+string	ls_msg, ls_retarg[], ls_packageflag
+Int		i, j
+long		ll_row
+s_window ls_window
+st_error lst_error 
+string ls_array[]
+
+// GET COLUMN VAL
+for i = 1 to UpperBound(a_col_arg)
+	If left(a_col_arg[i],1) = '&' or isNull(a_col_arg[i]) Then
+		ls_retarg[i] = mid(a_col_arg[i],2)
+	Else
+		Choose Case left(a_dwref.describe(a_col_arg[i]+".coltype"),4)
+			Case 'char'
+				ls_retarg[i] = a_dwref.GetItemString(a_dwref.getrow(), a_col_arg[i])
+			Case 'date'
+				ls_retarg[i] = string(date(a_dwref.GetItemDateTime(a_dwref.getrow(), a_col_arg[i])),'yyyymmdd')
+			Case else
+				ls_retarg[i] = string(a_dwref.GetItemNumber(a_dwref.getrow(), a_col_arg[i]))
+		End Choose
+	End If
+Next
