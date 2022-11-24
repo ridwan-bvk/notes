@@ -972,3 +972,7 @@ for i = 1 to UpperBound(a_col_arg)
 		End Choose
 	End If
 Next
+------------------------------------------
+cara get char tertentu
+ll_length = len(as_dw_report_name) - (len(as_dw_report_name) - Pos(as_dw_report_name,'_mo')) - 1
+	as_dw_report_name = mid(as_dw_report_name,1,ll_length)

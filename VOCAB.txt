@@ -20,27 +20,8 @@ chance=peluang
 awareness = kesadaraan
 consciousness  = kesadaran
 silling = kebosanan
-
-633 di GBN 574v
-634 di GBN 575v
-635 di GBN 576
-636 di GBN 577
-
-netto + pajak
-(gross- diskon)+ netto  *  inv_vat  / 100
-(sum(  inv_rate_home) - (sum(  inv_rate_home)* (inv_disc1  / 100)))+ + netto  *  inv_vat  / 100
-
-gross = sum(  inv_rate_home  for group 1 )
-diskon = sum(  inv_rate_home  for group 1 ) *  inv_disc1  / 100
-pajak =  netto  *  inv_vat  / 100
-
-netto =  gross  -  diskon 
+stunting = pengerdilan
+loathing = kebencian
 
 adenridwan1989@gmail.com
 supercoder2020
-
-spot_hdr_paid - (  spot_conf_paid +   spot_preem_paid +  spot_cancel_paid )
-spot_hdr_paid  = if (  bonus_taken = 'N' ,   spot , 0 )
-spot_conf_paid = if (  bonus_taken = 'N'  and  cp_status  =  '2' , spot , 0  )
-spot_preem_paid  = if (  bonus_taken = 'N'  and  cp_status  =  '4' ,   spot , 0  )
-spot_cancel_paid = if (  bonus_taken = 'N'  and  cp_status  =  '5'  and  canceled  = 'I',   spot , 0  )
