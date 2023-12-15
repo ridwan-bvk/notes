@@ -976,3 +976,322 @@ Next
 cara get char tertentu
 ll_length = len(as_dw_report_name) - (len(as_dw_report_name) - Pos(as_dw_report_name,'_mo')) - 1
 	as_dw_report_name = mid(as_dw_report_name,1,ll_length)
+-------------------------------------------
+12/13/2022 : cara looping baru di pb
+-------------------------------------------
+long ll_found
+string ls_allow, ls_completename
+declare cmod cursor for
+select completename
+from g_funmod;
+open cmod;	
+fetch cmod into :ls_completename;	
+	do while sqlca.sqlcode = 0	
+		ll_found = 0
+		ll_found = tab_1.tabpage_2.dw_2.find("modname = '" + ls_completename + "'", 1, tab_1.tabpage_2.dw_2.rowcount( ))
+		If ll_found > 0 Then
+			ls_allow= tab_1.tabpage_2.dw_2.getitemstring( ll_found, 'allow')
+			choose case ls_completename
+				case 'm_sales.m_changerateapproval.clicked'
+					update me_config 
+					set config_param	= :ls_allow
+					where config_code	= 'CRA';						
+			end choose
+		end if
+	fetch cmod into :ls_completename;
+	loop		
+close cmod;
+
+commit using sqlca;
+
+----------------------------
+SELECT TOP IN ORACLE
+----------------------------
+FETCH NEXT 10 ROWS ONLY
+
+-------------------------------------------
+// condition for dw status is not modified
+-------------------------------------------
+	if dw_2.getitemstatus(row, 0, primary!) = notmodified! &
+			or dw_2.getitemstatus(row, 0, primary!) = new! then
+		continue
+	end if
+------------------------------------------------
+function check duplicate alternatif
+------------------------------------------------
+long           ll_found_arg_row, ll_row
+string      key_id, ls_column, ls_datatype,ls_type
+
+
+arg_dw.AcceptText()
+
+ls_column = arg_column
+
+
+//Main Section for key duplication validation
+
+if (arg_dw.GetItemStatus(arg_row,0,Primary!) = NewModified!          or          &
+     arg_dw.GetItemStatus(arg_row,0,Primary!) = DataModified!)     then
+
+     ls_type = Upper(arg_dw.Describe(Trim(ls_column) + '.ColType'))
+	 ls_DataType=left(ls_type,3)
+     choose case  ls_DataType 
+          case     'CHA' 
+               key_id = arg_dw.GetItemString(arg_row,ls_column)          
+          case     'DAT'
+               key_id = String(arg_dw.GetItemDate(arg_row,ls_column))
+          case else
+               key_id = String(arg_dw.GetItemNumber(arg_row,ls_column))
+     end choose
+
+     if ls_DataType = 'CHA' then
+          ll_found_arg_row = arg_dw.Find(ls_column+"='"+key_id+"'",1,999999)
+     else
+          ll_found_arg_row = arg_dw.Find(ls_column+"="+key_id,1,999999)
+     end if
+     if (ll_found_arg_row > 0) and (ll_found_arg_row <> arg_row) then
+      //    MessageBox("Duplicate","Duplicate Record",Exclamation!)
+     
+ 
+          ll_row = arg_dw.ScrollToRow(ll_found_arg_row)  //scroll to the row
+                       arg_dw.SelectRow(0, FALSE) //to  remove highlighting from all rows
+                       arg_dw.SelectRow(ll_found_arg_row, TRUE)    //highlight the row         
+          Return True
+     end if
+
+end if
+
+Return False
+--------------------------------------------------------------------
+alternatif check duplikat
+--------------------------------------------------------------------
+if dw_1.getitemstatus(i, 0, primary!) = newmodified! then
+			if rowcount() > 1 then
+				
+				ll_find = dw_1.Find("pack_code = '" + ls_type + "' ", 0 , i - 1)
+				if ll_find > 0 then
+					//MessageBox('PO Type Master', 'There is a duplicate data!')
+					Messagebox(gf_messagebox_translate('M.SLS.POTYP.0002', 'PO Type Master', ls_null), &
+									gf_messagebox_translate('M.GEN.UCMON.0003', 'There is a duplicate data!' , ls_array))	
+					return -1
+				end if
+			end if
+		end if
+
+----------------------------------------------------
+
+fungsi untuk replac symbol
+f_globalreplace
+
+ls_search_val = sle_search.text
+ls_search_val = f_globalreplace(ls_search_val,"&","&&",false)
+-----------------------------------------------------------------
+	For i = 1 To len(data)
+		ls_cek = Mid(data,i,1) 
+		If Not match( ls_cek,"^[A-Z0-9 ]+$") Then
+//			MessageBox('Warning', "Can not use special character.",Exclamation!)
+			gf_MessageBox_pbus(gf_messagebox_translate('G.MSG.TITLE.0001', 'Warning', ls_array),&
+					gf_messagebox_translate('M.SLS.SPPOS.0008', "Can not use special character.", ls_array), "",OK!,1)
+			setitem(row,'special_pos',Replace(data,i,1,'')) 
+		end if
+	next
+
+______________________________________________________
+FIND CHARACTER
+______________________________________________________
+int i
+string ls_cek,ls_array[],ls_lspace,ls_rspace
+Constant  String ls_invalidchars ='!*|\:/?><~t'+'"'
+choose case dwo.name
+case 'prod_version_name','house_no_edauto','prod_version_alt_name','house_no'
+	For i = 1 To len(data)
+		ls_cek = Mid(data,i,1) 
+		If Pos(ls_invalidchars,ls_cek) > Pos(ls_cek, Mid(ls_invalidchars, i, 1)) Then
+			gf_MessageBox_pbus(gf_messagebox_translate('G.MSG.TITLE.0001', 'Warning', ls_array),&
+			gf_messagebox_translate('M.SLS.SPPOS.0008', 'Can not use special character /":?|<> \.', ls_array), "",OK!,1)
+			setitem(row,dwo.name,Replace(data,i,1,'')) 
+		End If
+	next
+end choose
+___________________________________________________________________________________
+scroll position
+________________
+tab_1.tabpage_1.dw_3.Object.DataWindow.HorizontalScrollPosition = 0
+_________________________
+clicked event
+_________________________
+tab_1.tabpage_2.dw_argument.Triggerevent("buttonclicked")
+_______________________________________________________
+
+//added by aridwan 20230123
+int i
+string ls_cek,ls_cek_1,ls_cek_2,ls_cek_3,ls_data_1,ls_data_2,ls_data,ls_column,ls_array[]
+Constant  String ls_invalidchars ='|\:/?><~t'+'"'
+choose case getcolumnname( )
+case 'prod_version_name','house_no_edauto','prod_version_alt_name','house_no'
+	ls_data_1 = object.house_no_edauto[getrow()] 
+	ls_data_2 = object.house_no[getrow()] 
+	IF  not isnull(ls_data_1) or not isnull(ls_data_2) Then
+		For i = 1 To len(ls_data_1)
+		ls_data_1 = object.house_no_edauto[getrow()] 
+		ls_cek = Mid(ls_data_1,i,1) 
+			if Pos(ls_invalidchars,ls_cek) > 0 then
+					g_msg.messagebox(gf_messagebox_translate('G.MSG.TITLE.0001', 'Warning', ls_array),&
+					gf_messagebox_translate('M.SLS.PRDCT.0003', 'House no Can not use special character " '+ls_cek+'", it will be replace', ls_array),Exclamation!)
+					setitem(getrow(),'house_no_edauto',Replace(ls_data_1,i,1,'')) 
+					i =1
+			 end if
+		next
+		this.setitem( getrow(), 'house_no', ls_data_1)
+	end if
+	
+	//remove space
+	if getcolumnname() = 'prod_version_name' then
+		ls_data  =  object.prod_version_name[getrow()] 
+		ls_column = 'prod_version_name'
+	elseif getcolumnname() = 'prod_version_alt_name' then
+		ls_data  = object.prod_version_alt_name[getrow()] 
+		ls_column = 'prod_version_alt_name'
+	elseif	getcolumnname() = 'house_no_edauto' then
+		ls_data  = object.house_no_edauto[getrow()] 
+		ls_column = 'house_no_edauto'
+	elseif	getcolumnname() = 'house_no' then
+		ls_data  = object.house_no[getrow()] 
+		ls_column = 'house_no'
+	end if
+	
+	if not isnull(ls_data) then
+		if trim(ls_data) <> ls_data then
+			post SetItem ( getrow(), ls_column, trim(ls_data) )
+		end if
+	end if
+end choose
+___________________________________________________________
+
+
+//int i
+//string ls_cek,ls_array[],ls_cek_1,ls_cek_2,ls_cek_3,ls_data_1,ls_data_2,ls_data_3
+//Constant  String ls_invalidchars ='|\:/?><~t'+'"'
+////added by aridwan 20230123
+//choose case dwo.name
+//case 'prod_version_name','house_no_edauto','prod_version_alt_name'	
+//		For i = 1 To len(data)
+//		ls_cek = Mid(data,i,1) 
+//			if Pos(ls_invalidchars,ls_cek) > 0 then
+//					gf_MessageBox_pbus(gf_messagebox_translate('G.MSG.TITLE.0001', 'Warning', ls_array),&
+//							gf_messagebox_translate('M.SLS.SPPOS.0008', "Can not use special character / :?'|<> \. ", ls_array), "",OK!,1)
+//					setitem(row,dwo.name,Replace(data,i,1,'')) 
+//			end if
+//		next
+//end choose
+//
+
+//string ls_data,ls_data_1,ls_data_2,ls_data_3
+//int i,li_cek_1 = 0,li_cek_2 = 0,li_cek_3=0
+//Constant  String ls_invalidchars ='|\:/?><~t'+'"'
+////added by aridwan 20230123
+//if this.rowcount( ) > 0 then
+//	choose case  dwo.name
+//	case 'prod_version_name','prod_version_alt_name','house_no_edauto','house_no'
+//	//cek charackter
+//		ls_data_1 = TRIM(getitemstring(row,'prod_version_name') )
+//		For i = 1 To len(ls_data_1)
+//			if  Pos(ls_invalidchars,Mid(ls_data_1,i,1)) > 0 then
+//				li_cek_1 = 1
+//				exit
+//			end if
+//		next
+//		
+//		ls_data_2 = TRIM(getitemstring(row,'prod_version_alt_name') )
+//		For i = 1 To len(ls_data_2)
+//			if  Pos(ls_invalidchars,Mid(ls_data_2,i,1)) > 0 then
+//				li_cek_2 = 1
+//				exit
+//			end if
+//		next
+//		
+//		ls_data_3 = TRIM(getitemstring(row,'house_no_edauto') )
+//		For i = 1 To len(ls_data_3)
+//			if  Pos(ls_invalidchars,Mid(ls_data_3,i,1)) > 0 then
+//				li_cek_3 = 1
+//				exit
+//			end if
+//		next
+//		
+//		if li_cek_1 > 0 or   li_cek_2 > 0 OR li_cek_3 > 0  then
+//			if li_cek_1 > 0 and not isnull(ls_data_1) then
+//				event editchanged(row, object.prod_version_name ,ls_data_1)
+//			elseif li_cek_2 > 0 and not isnull(ls_data_2) then
+//				event editchanged(row, object.prod_version_alt_name ,ls_data_2)
+//			elseif li_cek_3 > 0 and not isnull(ls_data_2) then
+//				event editchanged(row, object.house_no_edauto ,ls_data_3)
+//			end if
+//		end if
+//		//remove space
+//		if dwo.name = 'prod_version_name' then
+//			ls_data  = this.getitemstring( row,'prod_version_name')
+//		elseif dwo.name = 'prod_version_alt_name' then
+//			ls_data  = this.getitemstring( row,'prod_version_alt_name')
+//		elseif	dwo.name = 'house_no_edauto' then
+//			ls_data  = this.getitemstring( row,'house_no_edauto')
+//		elseif	dwo.name = 'house_no' then
+//			ls_data  = this.getitemstring( row,'house_no')
+//		end if
+//		
+//		if not isnull(ls_data) then
+//			if trim(ls_data) <> ls_data then
+//				post SetItem ( row, dwo.name, trim(ls_data) )
+//			end if
+//		end if
+//	end choose
+//end if
+________________________________________
+get theme
+string ls_theme
+ls_theme = Trim(upper(profilestring(gs_ini,'THEME','THEME','')))
+_______________________________________
+cara mengguanakn multiple in di where
+/ Formatted on 11/1/2023 2:50:14 PM (QP5 v5.391) /
+  SELECT v_common_rates.channel,
+         v_common_rates.slot_rate_code,
+         v_common_rates.slot_amount,
+         v_common_rates.description,
+         v_common_rates.tx_code,
+         v_common_rates.tx_name,
+         v_common_rates.tx_percentage,
+         v_common_rates.tx_value,
+         v_common_rates.priority,
+         v_common_rates.tx_priority,
+         v_common_rates.schobj_code,
+         v_common_rates.schobj_name,
+         v_common_rates.tvc_amount,
+         v_common_rates.duration,
+         v_common_rates.dur_in_sec,
+         v_common_rates.spot_dur_percentage,
+         v_common_rates.spot_dur_value
+    FROM v_common_rates
+   WHERE     (V_COMMON_RATES.CHANNEL =:Channel)
+         AND (V_COMMON_RATES.SLOT_RATE_CODE =:slotRateCode)
+         AND (V_COMMON_RATES.TX_CODE IN (SELECT REGEXP_SUBSTR(:Tx, '''(.*?)([^'',]+)''', 1, LEVEL, NULL, 2) FROM DUAL
+      CONNECT BY REGEXP_SUBSTR(:Tx, '''(.*?)([^'',]+)''', 1, LEVEL, NULL, 2) IS NOT NULL))
+         AND (V_COMMON_RATES.SCHOBJ_CODE IN (SELECT REGEXP_SUBSTR(:schobjCode, '''(.*?)([^'',]+)''', 1, LEVEL, NULL, 2) FROM DUAL
+      CONNECT BY REGEXP_SUBSTR(:schobjCode, '''(.*?)([^'',]+)''', 1, LEVEL, NULL, 2) IS NOT NULL))
+ORDER BY v_common_rates.channel ASC,
+         v_common_rates.slot_rate_code ASC,
+         v_common_rates.tx_priority ASC,
+         v_common_rates.tx_code ASC,
+         v_common_rates.schobj_code ASC,
+         v_common_rates.dur_in_sec ASC
+----------------------------------------
+Single -> IN (:TX)
+
+Multiple -> IN (SELECT REGEXP_SUBSTR(:Tx, '''(.*?)([^'',]+)''', 1, LEVEL, NULL, 2) FROM DUAL
+      CONNECT BY REGEXP_SUBSTR(:Tx, '''(.*?)([^'',]+)''', 1, LEVEL, NULL, 2) IS NOT NULL))
+
+cara pengguaan isi parameter : ''1','2','3''
+----------------------------------------------
+
+fucntion telerik
+---------------------
+= IIF(RowNumber('group') = 1,Format('{0:0#:0#:0#:0#}', CInt(Fields.SLOT_TTIME)),'')
+= IIF(RowNumber('group') = 1,Fields.FILM_POC_TITLE,'')

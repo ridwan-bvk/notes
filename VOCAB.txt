@@ -13,15 +13,19 @@ shifting =pergeseran
 wreckage = reruntuhan
 not giving a fuck = tidak peduli
 earn : penghasilan
-doubt=meragukan
 stuff=hal2
 jar=toples
 chance=peluang
-awareness = kesadaraan
 consciousness  = kesadaran
 silling = kebosanan
+
+popular speak
+revenge = bls dendam
 stunting = pengerdilan
 loathing = kebencian
+awareness = kesadaraan
+doubt=meragukan
+
 
 adenridwan1989@gmail.com
 supercoder2020

@@ -1,0 +1,35 @@
+RAISE ERRORN IN TRIGER
+-----------------------------------------
+BEFORE INSERT OR UPDATE OF DEFAULT_CURR
+ON MB_CURRENCY
+REFERENCING NEW AS New OLD AS Old
+FOR EACH ROW
+BEGIN
+  IF INSERTING AND :NEW.DEFAULT_CURR = 'Y' THEN
+    RAISE_APPLICATION_ERROR(-20001,'Can not add default currency');
+  ELSIF UPDATING AND :NEW.DEFAULT_CURR = 'Y' AND :OLD.DEFAULT_CURR <> 'Y' THEN
+    RAISE_APPLICATION_ERROR(-20001,'Can not modify to default currency');
+  END IF;
+END;
+/
+SHOW ERRORS;
+
+--------------------------------------------------
+CREATE TRIGER
+---------------------------------------------------
+CREATE OR REPLACE TRIGGER TRG_MST_CENSORSHIP_STLS_BLOB
+    AFTER UPDATE
+    ON MST_CENSORSHIP_STLS_TEMP
+    REFERENCING NEW AS New OLD AS Old
+    FOR EACH ROW
+ENABLE
+
+BEGIN
+        UPDATE MST_CENSORSHIP_STLS
+           SET CENSORSHIP_ATC = :NEW.CENSORSHIP_ATC
+        WHERE   MST_CENSORSHIP_STLS.ROW_ID = :OLD.ROW_ID;    
+END;
+
+SELECT * FROM ME_PRINT WHERE WIN_CODE LIKE '%qc%';
+----------------------------------------------------------
+
